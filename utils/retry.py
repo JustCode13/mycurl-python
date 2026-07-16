@@ -1,6 +1,6 @@
 import random
 import time
-from .exceptions import RedirectLimitExceededError
+from .exceptions import RetryLimitExceededError
 
 
 def calculate_backoff_delay(attempt: int, base_delay: float, maximum_delay: float) -> float:
@@ -24,7 +24,7 @@ def calculate_backoff_delay(attempt: int, base_delay: float, maximum_delay: floa
     return calculated_delay
 
 
-def add_retry_jitter(delay: float):
+def add_retry_jitter(delay: float) -> float:
     if not isinstance(delay,float):
         raise ValueError("delay must be float")
     
@@ -44,4 +44,23 @@ def add_retry_jitter(delay: float):
     return final_delay
 
 
+def sleep_before_retry(attempt: int, base_delay: float, maximum_delay: float) -> None:
+    if not isinstance(attempt,int):
+        raise ValueError("attempt must be int")
+    
+    if (attempt < 1):
+        raise ValueError("attempt must be greater than zero")
+    
+    max_retries = 10
 
+    if (attempt > max_retries):
+        raise RetryLimitExceededError("maximum retry limits exceeded")
+
+    try:
+        delay = calculate_backoff_delay(attempt, base_delay, maximum_delay)
+        
+        final_delay = add_retry_jitter(delay)
+    except ValueError:
+        raise
+
+    time.sleep(final_delay)
