@@ -23,3 +23,25 @@ def calculate_backoff_delay(attempt: int, base_delay: float, maximum_delay: floa
     
     return calculated_delay
 
+
+def add_retry_jitter(delay: float):
+    if not isinstance(delay,float):
+        raise ValueError("delay must be float")
+    
+    if (delay < 0):
+        raise ValueError("delay must be greater than zero")
+    
+    start_value = -0.5
+    end_value = 0.5
+
+    jitter = random.uniform(start_value,end_value)
+
+    final_delay = delay + jitter
+
+    if (final_delay <= 0):
+        raise ValueError("final delay cannot be negative")
+    
+    return final_delay
+
+
+
