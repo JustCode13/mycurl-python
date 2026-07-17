@@ -34,14 +34,14 @@ REDIRECT_STATUS_CODES: frozenset[int] = frozenset({
 
 # Headers that apply only to a single transport connection.
 HOP_BY_HOP_HEADERS: frozenset[str] = frozenset({
-    "connection",
-    "keep-alive",
-    "proxy-authenticate",
-    "proxy-authorization",
-    "te",
-    "trailer",
-    "transfer-encoding",
-    "upgrade",
+    "connection",                               # Controls options for the current TCP connection.
+    "keep-alive",                               # Provides settings for a persistent connection.
+    "proxy-authenticate",                       # Sent by a proxy server asking the client to authenticate.
+    "proxy-authorization",                      # Sent by the client to authenticate with a proxy.
+    "te",                                       # Specifies which transfer encodings the client accepts.
+    "trailer",                                  # Lists headers that will appear after a chunked response body.
+    "transfer-encoding",                        # Specifies how the message body is transferred.
+    "upgrade",                                  # Requests switching to another protocol.
 })
 
 # Default timeout (seconds) for establishing a TCP connection.
