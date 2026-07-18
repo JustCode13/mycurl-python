@@ -17,3 +17,8 @@ class RedirectPolicy(enum.Enum):
         else:
             return False
         
+
+class TLSVerificationMode(enum.Enum):
+    Strict = "strict"
+    DISABLED = "disabled"
+    
